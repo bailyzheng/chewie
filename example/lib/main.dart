@@ -31,12 +31,11 @@ class _ChewieDemoState extends State<ChewieDemo> {
   void initState() {
     super.initState();
     _videoPlayerController1 = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
+        'http://open.kzzmedia.com/%E8%A7%86%E9%A2%91%E6%95%99%E5%AD%A6.mp4');
     _videoPlayerController2 = VideoPlayerController.network(
-        'https://www.sample-videos.com/video123/mp4/480/asdasdas.mp4');
+        'http://admin.kzzmedia.com/Fg2eqVBlElGB8CS6BULcmewc-dws?e=1606377947&token=yQArQUXK8n4AN7Su5MkNzirRZ1d39yITW3xserWA:HxZZ1qpD8nt1AAAf_DU6YQvqaOc=');
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController1,
-      aspectRatio: 3 / 2,
       autoPlay: true,
       looping: true,
       // Try playing around with some of these other options:
@@ -100,7 +99,6 @@ class _ChewieDemoState extends State<ChewieDemo> {
                         _videoPlayerController2.seekTo(Duration(seconds: 0));
                         _chewieController = ChewieController(
                           videoPlayerController: _videoPlayerController1,
-                          aspectRatio: 3 / 2,
                           autoPlay: true,
                           looping: true,
                         );
@@ -121,7 +119,6 @@ class _ChewieDemoState extends State<ChewieDemo> {
                         _videoPlayerController1.seekTo(Duration(seconds: 0));
                         _chewieController = ChewieController(
                           videoPlayerController: _videoPlayerController2,
-                          aspectRatio: 3 / 2,
                           autoPlay: true,
                           looping: true,
                         );

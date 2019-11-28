@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:chewie/src/chewie_progress_colors.dart';
 import 'package:chewie/src/player_with_controls.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +57,7 @@ class ChewieState extends State<Chewie> {
   }
 
   void listener() async {
+    setState(() {});
     if (widget.controller.isFullScreen && !_isFullScreen) {
       _isFullScreen = true;
       await _pushFullScreenWidget(context);
@@ -290,6 +290,7 @@ class ChewieController extends ChangeNotifier {
     if ((autoInitialize || autoPlay) &&
         !videoPlayerController.value.initialized) {
       await videoPlayerController.initialize();
+      notifyListeners();
     }
 
     if (autoPlay) {
