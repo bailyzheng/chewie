@@ -79,6 +79,7 @@ class _MaterialControlsState extends State<MaterialControls> {
 
   @override
   void dispose() {
+    print("material_controls dispose");
     _dispose();
     super.dispose();
   }
@@ -356,9 +357,11 @@ class _MaterialControlsState extends State<MaterialControls> {
   }
 
   void _updateState() {
-    setState(() {
-      _latestValue = controller.value;
-    });
+    if (mounted) {
+      setState(() {
+        _latestValue = controller.value;
+      });
+    }
   }
 
   Widget _buildProgressBar() {
