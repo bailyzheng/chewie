@@ -18,8 +18,8 @@ class PlayerWithControls extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: AspectRatio(
-          aspectRatio:
-              chewieController.aspectRatio ?? chewieController.videoPlayerController.value.aspectRatio,
+          aspectRatio: chewieController.aspectRatio ??
+              chewieController.videoPlayerController.value.aspectRatio,
           child: _buildPlayerWithControls(chewieController, context),
         ),
       ),
@@ -30,13 +30,38 @@ class PlayerWithControls extends StatelessWidget {
       ChewieController chewieController, BuildContext context) {
     return Container(
       child: Stack(
+        alignment: Alignment.center,
         children: <Widget>[
           chewieController.placeholder ?? Container(),
-          Center(
-            child: AspectRatio(
-              aspectRatio: chewieController.aspectRatio ?? chewieController.videoPlayerController.value.aspectRatio,
-              child: VideoPlayer(chewieController.videoPlayerController),
-            ),
+          Stack(
+            fit: StackFit.loose,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(bottom: 2),
+                child: AspectRatio(
+                  aspectRatio: chewieController.aspectRatio ??
+                      chewieController.videoPlayerController.value.aspectRatio,
+                  child: VideoPlayer(chewieController.videoPlayerController),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Offstage(
+                  offstage: !chewieController.showProgressBar,
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: 2),
+                      child: VideoProgressIndicator(
+                        chewieController.videoPlayerController,
+                        allowScrubbing: true,
+                        colors: VideoProgressColors(
+                            playedColor: chewieController.playedColor),
+                        padding: EdgeInsets.all(0),
+                      )),
+                ),
+              ),
+            ],
           ),
           chewieController.overlay ?? Container(),
           _buildControls(context, chewieController),

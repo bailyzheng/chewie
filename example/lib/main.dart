@@ -38,6 +38,9 @@ class _ChewieDemoState extends State<ChewieDemo> {
       videoPlayerController: _videoPlayerController1,
       autoPlay: true,
       looping: true,
+      customControls: SimpleControls(),
+      showProgressBar: true,
+      playedColor: Colors.purple
       // Try playing around with some of these other options:
 
       // showControls: false,
@@ -68,6 +71,7 @@ class _ChewieDemoState extends State<ChewieDemo> {
       title: widget.title,
       theme: ThemeData.light().copyWith(
         platform: _platform ?? Theme.of(context).platform,
+        dialogBackgroundColor: Color(0xaa333333),
       ),
       home: Scaffold(
         appBar: AppBar(
