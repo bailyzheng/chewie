@@ -15,16 +15,7 @@ class SimpleControls extends StatefulWidget {
 
 class _SimpleControlsState extends State<SimpleControls> {
   VideoPlayerValue _latestValue;
-  bool _hideStuff = true;
-  Timer _hideTimer;
-  Timer _initTimer;
-  Timer _showAfterExpandCollapseTimer;
   bool _dragging = false;
-  bool _displayTapped = false;
-
-  final barHeight = 48.0;
-  final marginSize = 5.0;
-
   VideoPlayerController controller;
   ChewieController chewieController;
 
@@ -47,15 +38,12 @@ class _SimpleControlsState extends State<SimpleControls> {
 
     return MouseRegion(
       onHover: (_) {
-        _cancelAndRestartTimer();
       },
       child: GestureDetector(
         onTap: () {
-          _cancelAndRestartTimer();
           _playPause();
         },
         child: AbsorbPointer(
-          absorbing: _hideStuff,
           child: Column(
             children: <Widget>[
               _latestValue != null &&
@@ -84,9 +72,6 @@ class _SimpleControlsState extends State<SimpleControls> {
 
   void _dispose() {
     controller.removeListener(_updateState);
-    _hideTimer?.cancel();
-    _initTimer?.cancel();
-    _showAfterExpandCollapseTimer?.cancel();
   }
 
   @override
@@ -108,18 +93,8 @@ class _SimpleControlsState extends State<SimpleControls> {
       child: GestureDetector(
         onTap: () {
           if (_latestValue != null && _latestValue.isPlaying) {
-            if (_displayTapped) {
-              setState(() {
-                _hideStuff = true;
-              });
-            } else
-              _cancelAndRestartTimer();
           } else {
             _playPause();
-
-            setState(() {
-              _hideStuff = true;
-            });
           }
         },
         child: Container(
@@ -150,16 +125,6 @@ class _SimpleControlsState extends State<SimpleControls> {
     );
   }
 
-  void _cancelAndRestartTimer() {
-    _hideTimer?.cancel();
-    _startHideTimer();
-
-    setState(() {
-      _hideStuff = false;
-      _displayTapped = true;
-    });
-  }
-
   Future<Null> _initialize() async {
     controller.addListener(_updateState);
 
@@ -167,15 +132,6 @@ class _SimpleControlsState extends State<SimpleControls> {
 
     if ((controller.value != null && controller.value.isPlaying) ||
         chewieController.autoPlay) {
-      _startHideTimer();
-    }
-
-    if (chewieController.showControlsOnInitialize) {
-      _initTimer = Timer(Duration(milliseconds: 200), () {
-        setState(() {
-          _hideStuff = false;
-        });
-      });
     }
   }
 
@@ -184,12 +140,8 @@ class _SimpleControlsState extends State<SimpleControls> {
 
     setState(() {
       if (controller.value.isPlaying) {
-        _hideStuff = false;
-        _hideTimer?.cancel();
         controller.pause();
       } else {
-        _cancelAndRestartTimer();
-
         if (!controller.value.initialized) {
           controller.initialize().then((_) {
             controller.play();
@@ -201,14 +153,6 @@ class _SimpleControlsState extends State<SimpleControls> {
           controller.play();
         }
       }
-    });
-  }
-
-  void _startHideTimer() {
-    _hideTimer = Timer(const Duration(seconds: 3), () {
-      setState(() {
-        _hideStuff = true;
-      });
     });
   }
 
