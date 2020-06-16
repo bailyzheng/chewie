@@ -13,3 +13,4 @@ Podfile.lock
 chewie.iml
 example/.flutter-plugins-dependencies
 **/flutter_export_environment.sh
+example/ios/Flutter/flutter_export_environment.sh
