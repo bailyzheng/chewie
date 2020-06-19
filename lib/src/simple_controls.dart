@@ -65,7 +65,7 @@ class _SimpleControlsState extends State<SimpleControls> {
 
   @override
   void dispose() {
-    print("material_controls dispose");
+    print("simple_controls dispose");
     _dispose();
     super.dispose();
   }
